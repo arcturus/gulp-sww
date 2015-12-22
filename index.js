@@ -7,7 +7,7 @@ var PluginError = gutil.PluginError;
 
 var PLUGIN_NAME = 'gulp-sww';
 
-module.exports = function(out, options) {
+module.exports = function(options) {
   options = options || {};
 
   var entryPoint = options.entryPoint || 'index.html';
@@ -15,7 +15,7 @@ module.exports = function(out, options) {
   var paths = [];
 
   var onFile = function(file) {
-    var path = file.path.replace(process.cwd() + '/', '');
+    var path = file.path.substr(file.base.length);
     if (file.isBuffer()) {
       paths.push(path);
     }
@@ -33,7 +33,7 @@ module.exports = function(out, options) {
     var filesToLoad = JSON.stringify(paths);
     var content = `var FILES_TO_LOAD = ${filesToLoad};`;
     var file = new File({
-      path: out,
+      path: 'files.js',
       contents: new Buffer(content)
     });
     this.emit('data', file);

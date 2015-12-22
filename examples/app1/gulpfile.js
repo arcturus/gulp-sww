@@ -3,8 +3,8 @@ var gulpsww = require('../../');
 
 
 gulp.task('offline', function() {
-  return gulp.src('**/*', { base : './' } )
-    .pipe(gulpsww('files.js'))
+  return gulp.src('**/*', { cwd : './' } )
+    .pipe(gulpsww())
     .pipe(gulp.dest('./'));
 });
 
