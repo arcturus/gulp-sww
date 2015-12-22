@@ -5,5 +5,8 @@
   "main": "gulpfile.js",
   "devDependencies": {
     "gulp": "^3.9.0"
+  },
+  "engines":  {
+    "node": ">=4.2.0"
   }
 }
