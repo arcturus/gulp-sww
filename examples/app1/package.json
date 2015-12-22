@@ -1,0 +1,9 @@
+{
+  "name": "gulp-sww-app1",
+  "description": "An example that shows how to use the sww gulp plugin",
+  "version": "0.0.0",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
