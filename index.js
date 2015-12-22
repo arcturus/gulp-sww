@@ -16,7 +16,9 @@ module.exports = function(out, options) {
 
   var onFile = function(file) {
     var path = file.path.replace(process.cwd() + '/', '');
-    paths.push(path);
+    if (file.isBuffer()) {
+      paths.push(path);
+    }
 
     if (file.isBuffer() && path === 'index.html') {
       var content = String(file.contents);
