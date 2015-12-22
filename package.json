@@ -16,13 +16,14 @@
   "author": "Francisco Jordano <francisco@jordano.es>",
   "license": "MPL",
   "dependencies": {
+    "gulp-util": "^3.0.7",
     "through": "^2.3.8",
     "vinyl": "^1.1.0"
   },
   "devDependencies": {
     "serviceworkers-ware": "^0.3.1"
   },
-  "engines":  {
+  "engines": {
     "node": ">=4.2.0"
   }
 }

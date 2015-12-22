@@ -2,6 +2,8 @@ var through = require('through');
 var File = require('vinyl');
 var templates = require('./templates.js');
 var fs = require('fs');
+var gutil = require('gulp-util');
+var PluginError = gutil.PluginError;
 
 var PLUGIN_NAME = 'gulp-sww';
 
@@ -41,8 +43,23 @@ module.exports = function(out, options) {
     });
     this.emit('data', swFile);
 
-    var swwContent = fs.readFileSync(
-      'node_modules/serviceworkers-ware/dist/sww.js');
+    // Copy library, check in different paths to support the example
+    var swwPath = process.cwd() +
+      '/node_modules/serviceworkers-ware/dist/sww.js';
+    try {
+        fs.accessSync(swwPath)
+    } catch(e1) {
+      // This is for the example
+      swwPath = '../../node_modules/serviceworkers-ware/dist/sww.js';
+      try {
+        fs.accessSync(swwPath);
+      } catch(e2) {
+        // This is a proper error
+        throw new PluginError(PLUGIN_NAME, 'Cannot find SWW libary');
+      }
+    }
+
+    var swwContent = fs.readFileSync(swwPath);
     var swwFile = new File({
       path: 'sww.js',
       contents: new Buffer(swwContent)
