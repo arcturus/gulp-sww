@@ -1,12 +1,13 @@
 {
   "name": "gulp-sww",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A gulp plugin that will use SWW library to offline your projects",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "keywords": [
+    "gulp",
     "gulpplugin",
     "sww",
     "offline",
@@ -18,9 +19,7 @@
   "dependencies": {
     "gulp-util": "^3.0.7",
     "through": "^2.3.8",
-    "vinyl": "^1.1.0"
-  },
-  "devDependencies": {
+    "vinyl": "^1.1.0",
     "serviceworkers-ware": "^0.3.1"
   },
   "engines": {
