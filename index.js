@@ -44,7 +44,7 @@ module.exports = function(out, options) {
     this.emit('data', swFile);
 
     // Copy library, check in different paths to support the example
-    var swwPath = process.cwd() +
+    var swwPath = __dirname +
       '/node_modules/serviceworkers-ware/dist/sww.js';
     try {
         fs.accessSync(swwPath)
