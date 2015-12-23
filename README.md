@@ -17,7 +17,7 @@ The steps this plugin provide are the following:
 Usage
 -----
 ```
-require gulpsww = require('gulp-sww');
+var gulpsww = require('gulp-sww');
 
 gulp.task('offline', function() {
   return gulp.src('**/*', { cwd : '<your working directory>' } )
