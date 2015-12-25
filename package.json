@@ -15,7 +15,9 @@
     "serviceworkers"
   ],
   "author": "Francisco Jordano <francisco@jordano.es>",
-  "license": "MPL",
+  "homepage": "https://github.com/arcturus/gulp-sww/",
+  "repository": "git@github.com:arcturus/gulp-sww.git",
+  "license": "MPL-2.0",
   "dependencies": {
     "gulp-util": "^3.0.7",
     "through": "^2.3.8",
