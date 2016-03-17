@@ -1,11 +1,10 @@
 module.exports = {
-  INSTALL_TEMPLATE: `<script>
+  INSTALL_TEMPLATE: `
     if (navigator.serviceWorker) {
       if (!navigator.serviceWorker.controller) {
         navigator.serviceWorker.register('sw.js');
       }
-    }
-  </script>`,
+    }`,
   SW_TEMPLATE: `importScripts('files.js');
   importScripts('sww.js');
 

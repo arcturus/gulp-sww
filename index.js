@@ -21,9 +21,14 @@ module.exports = function(options) {
     }
 
     if (file.isBuffer() && path === 'index.html') {
+      // Create the install file and append it's load
+      var installFile = new File({
+        path: 'install-sw.js',
+        contents: new Buffer(templates.INSTALL_TEMPLATE)
+      });
+      this.emit('data', installFile);
       var content = String(file.contents);
-      content = content.replace('</head>',
-        templates.INSTALL_TEMPLATE + '</head>');
+      content = content.replace('</head>','<script src="install-sw.js"></script></head>');
       file.contents = new Buffer(content);
       this.push(file);
     }
