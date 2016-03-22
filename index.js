@@ -12,6 +12,7 @@ module.exports = function(options) {
 
   var entryPoint = options.entryPoint || 'index.html';
   var version = options.version || '1.0.0';
+  var hookSW = options.hookSW || null;
   var paths = [];
 
   var onFile = function(file) {
@@ -43,7 +44,7 @@ module.exports = function(options) {
     });
     this.emit('data', file);
 
-    var swContent = templates.SW_TEMPLATE.replace('$VERSION', version);
+    var swContent = templates.SW_TEMPLATE.replace('$VERSION', version).replace('$HOOK', hookSW);
     var swFile = new File({
       path: 'sw.js',
       contents: new Buffer(swContent)
