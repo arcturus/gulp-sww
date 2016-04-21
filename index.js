@@ -29,7 +29,7 @@ module.exports = function(options) {
       });
       this.emit('data', installFile);
       var content = String(file.contents);
-      content = content.replace('</head>','<script src="install-sw.js"></script></head>');
+      content = content.replace('<head>','<head><script defer async src="install-sw.js"></script>');
       file.contents = new Buffer(content);
       this.push(file);
     }
