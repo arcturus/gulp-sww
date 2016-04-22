@@ -1,6 +1,6 @@
 {
   "name": "gulp-sww",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A gulp plugin that will use SWW library to offline your projects",
   "main": "index.js",
   "scripts": {
