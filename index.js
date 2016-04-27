@@ -62,8 +62,14 @@ module.exports = function(options) {
       try {
         fs.accessSync(swwPath);
       } catch(e2) {
-        // This is a proper error
-        throw new PluginError(PLUGIN_NAME, 'Cannot find SWW libary');
+        // Check npm3 paths
+        swwPath = __dirname + '/../serviceworkers-ware/dist/sww.js';
+        try {
+          fs.accessSync(swwPath);  
+        } catch(e3) {
+          // This is a proper error
+          throw new PluginError(PLUGIN_NAME, 'Cannot find SWW libary');
+        }
       }
     }
 
