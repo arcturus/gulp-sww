@@ -4,8 +4,12 @@ var package = require('./package.json');
 
 
 gulp.task('offline', function() {
-  return gulp.src('**/*', { cwd : './' } )
-    .pipe(gulpsww({'version': package.version, 'hookSW': 'swExtra.js'}))
+  return gulp.src([
+    '**/*',
+    '!gulpfile.js',
+    '!package.json'
+  ], { cwd: './' })
+    .pipe(gulpsww({ 'version': package.version, 'hookSW': 'swExtra.js' }))
     .pipe(gulp.dest('./'));
 });
 
