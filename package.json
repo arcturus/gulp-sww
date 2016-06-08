@@ -1,7 +1,7 @@
 {
   "name": "gulp-sww",
-  "version": "0.0.12",
-  "description": "A gulp plugin that will use SWW library to offline your projects",
+  "version": "0.1.0",
+  "description": "A gulp plugin to make your web app work offline.",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -12,7 +12,10 @@
     "sww",
     "offline",
     "serviceworker",
-    "serviceworkers"
+    "serviceworkers",
+    "service worker",
+    "service workers",
+    "appcache"
   ],
   "author": "Francisco Jordano <francisco@jordano.es>",
   "homepage": "https://github.com/arcturus/gulp-sww/",
@@ -20,9 +23,10 @@
   "license": "MPL-2.0",
   "dependencies": {
     "gulp-util": "^3.0.7",
+    "node-appcache-generator": "0.0.2",
+    "serviceworkers-ware": "^0.3.2",
     "through": "^2.3.8",
-    "vinyl": "^1.1.0",
-    "serviceworkers-ware": "^0.3.2"
+    "vinyl": "^1.1.0"
   },
   "engines": {
     "node": ">=4.2.0"
