@@ -40,6 +40,16 @@ gulp.task('offline', function() {
 });
 ```
 
+By default, the `index.html` page is modified but you can specify a different
+entry point:
+```javascript
+gulp.task('offline', function() {
+  return gulp.src('**/*', { cwd : '<your working directory>' } )
+    .pipe(gulpsww({ entryPoint: 'main.html' }))
+    .pipe(gulp.dest('<output directory>'));
+});
+```
+
 Examples
 --------
 You can find a simple example in the `examples/app1` and  `examples/app2`
