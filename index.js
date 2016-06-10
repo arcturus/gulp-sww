@@ -38,16 +38,31 @@ module.exports = function(options) {
   };
 
   var onEnd = function() {
-    var filesToLoad = JSON.stringify(paths);
-    var content = `var FILES_TO_LOAD = ${filesToLoad};`;
-    var file = new File({
-      path: 'files.js',
-      contents: new Buffer(content)
-    });
-    this.emit('data', file);
+    var FILES_TO_REMOVE = [
+      'install-sw.js',
+      'sw.js',
+      'sww.js',
+      hookSW,
+      'cache.html',
+      'cache.js',
+      'manifest.appcache'
+    ];
+    var filesToLoad = paths
+      .filter(function(file) {
+        // Remove the files related to SW or appCache.
+        return FILES_TO_REMOVE.indexOf(file) === -1;
+      });
+
+    // Assets used by the service worker.
+    var swFiles = filesToLoad.slice(0); // Clone array.
+    swFiles.push('install-sw.js', 'sw.js', 'sww.js');
+    if (hookSW !== null) {
+      swFiles.push(hookSW);
+    }
 
     var swContent = templates.SW_TPL_JS
       .replace('$VERSION', version)
+      .replace('$FILES_TO_LOAD', JSON.stringify(swFiles))
       .replace('$HOOK', hookSW);
     var swFile = new File({
       path: 'sw.js',
@@ -84,18 +99,11 @@ module.exports = function(options) {
     });
     this.emit('data', swwFile);
 
-    // Assets used by AppCache fall back
-    if (paths.indexOf('install-sw.js') === -1) paths.push('install-sw.js');
-    if (paths.indexOf('cache.html') === -1) paths.push('cache.html');
-    if (paths.indexOf('cache.js') === -1) paths.push('cache.js');
-    // Don't cache the manifest or the SW related files
-    paths = paths.filter(function(file) {
-      return file !== 'manifest.appcache'
-        && file !== 'files.js'
-        && file !== 'sw.js'
-        && file !== 'sww.js';
-    });
-    var appCache = new AppCache.Generator(paths);
+    // Assets used by AppCache fall back.
+    var appCacheFiles = filesToLoad.slice(0); // Clone array.
+    appCacheFiles.push('install-sw.js', 'cache.html', 'cache.js');
+
+    var appCache = new AppCache.Generator(appCacheFiles);
     var appCacheContent = appCache.generate();
     var appCacheManifest = new File({
       path: 'manifest.appcache',
