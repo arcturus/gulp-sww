@@ -22,7 +22,7 @@ module.exports = function(options) {
       paths.push(path);
     }
 
-    if (file.isBuffer() && path === 'index.html') {
+    if (file.isBuffer() && path === entryPoint) {
       // Create the install file and append it's load
       var installFile = new File({
         path: 'install-sw.js',
