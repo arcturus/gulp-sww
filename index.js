@@ -12,7 +12,7 @@ module.exports = function(options) {
   options = options || {};
 
   var entryPoint = options.entryPoint || 'index.html';
-  var version = options.version || '1.0.0';
+  var version = options.version || Date.now();
   var hookSW = options.hookSW || null;
   var paths = [];
 
