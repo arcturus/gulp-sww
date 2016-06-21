@@ -31,11 +31,11 @@ The steps this plugin provide are the following:
 Usage
 -----
 ```javascript
-var gulpsww = require('gulp-sww');
+var sww = require('gulp-sww');
 
 gulp.task('offline', function() {
   return gulp.src('**/*', { cwd : '<your working directory>' } )
-    .pipe(gulpsww())
+    .pipe(sww())
     .pipe(gulp.dest('<output directory>'));
 });
 ```
@@ -45,7 +45,7 @@ entry point:
 ```javascript
 gulp.task('offline', function() {
   return gulp.src('**/*', { cwd : '<your working directory>' } )
-    .pipe(gulpsww({ entryPoint: 'main.html' }))
+    .pipe(sww({ entryPoint: 'main.html' }))
     .pipe(gulp.dest('<output directory>'));
 });
 ```

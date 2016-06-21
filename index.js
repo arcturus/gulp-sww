@@ -15,9 +15,16 @@ module.exports = function(options) {
   var version = options.version || Date.now();
   var hookSW = options.hookSW || null;
   var paths = [];
+  var hasAppCacheManifest = false;
 
   var onFile = function(file) {
     var path = file.path.substr(file.base.length);
+
+    if (path === entryPoint
+      && String(file.contents).match(/<html manifest="/)) {
+      hasAppCacheManifest = true;
+    }
+
     if (file.isBuffer()) {
       paths.push(path);
     }
@@ -100,30 +107,32 @@ module.exports = function(options) {
     this.emit('data', swwFile);
 
     // Assets used by AppCache fall back.
-    var appCacheFiles = filesToLoad.slice(0); // Clone array.
-    appCacheFiles.push('install-sw.js', 'cache.html', 'cache.js');
+    if (!hasAppCacheManifest) {
+      var appCacheFiles = filesToLoad.slice(0); // Clone array.
+      appCacheFiles.push('install-sw.js', 'cache.html', 'cache.js');
 
-    var appCache = new AppCache.Generator(appCacheFiles);
-    var appCacheContent = appCache.generate();
-    var appCacheManifest = new File({
-      path: 'manifest.appcache',
-      contents: new Buffer(appCacheContent)
-    });
-    this.emit('data', appCacheManifest);
+      var appCache = new AppCache.Generator(appCacheFiles);
+      var appCacheContent = appCache.generate();
+      var appCacheManifest = new File({
+        path: 'manifest.appcache',
+        contents: new Buffer(appCacheContent)
+      });
+      this.emit('data', appCacheManifest);
 
-    var iframeJSContent = templates.CACHE_TPL_JS;
-    var iframeJSFile = new File({
-      path: 'cache.js',
-      contents: new Buffer(iframeJSContent)
-    });
-    this.emit('data', iframeJSFile);
+      var iframeJSContent = templates.CACHE_TPL_JS;
+      var iframeJSFile = new File({
+        path: 'cache.js',
+        contents: new Buffer(iframeJSContent)
+      });
+      this.emit('data', iframeJSFile);
 
-    var appCacheHtmlContent = templates.CACHE_TPL_HTML;
-    var appCacheHtmlFile = new File({
-      path: 'cache.html',
-      contents: new Buffer(appCacheHtmlContent)
-    });
-    this.emit('data', appCacheHtmlFile);
+      var appCacheHtmlContent = templates.CACHE_TPL_HTML;
+      var appCacheHtmlFile = new File({
+        path: 'cache.html',
+        contents: new Buffer(appCacheHtmlContent)
+      });
+      this.emit('data', appCacheHtmlFile);
+    }
 
     this.emit('end');
   };

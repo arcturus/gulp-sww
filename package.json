@@ -1,6 +1,6 @@
 {
   "name": "gulp-sww",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A gulp plugin to make your web app work offline.",
   "main": "index.js",
   "scripts": {
