@@ -58,6 +58,9 @@ module.exports = function(options) {
       .filter(function(file) {
         // Remove the files related to SW or appCache.
         return FILES_TO_REMOVE.indexOf(file) === -1;
+      })
+      .sort(function(a, b) {
+        return a - b;
       });
 
     // Assets used by the service worker.
