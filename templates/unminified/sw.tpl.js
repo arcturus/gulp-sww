@@ -5,9 +5,9 @@ var worker = new self.ServiceWorkerWare();
 worker.use(new self.StaticCacher($FILES_TO_LOAD));
 worker.use(new self.SimpleOfflineCache());
 
-var extraFile = '$HOOK';
-if (extraFile && extraFile !== 'null') {
-  importScripts(extraFile);
+var extraFiles = $HOOK;
+if (extraFiles.length) {
+  importScripts(...extraFiles);
 }
 
 worker.init();
