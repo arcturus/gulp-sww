@@ -13,7 +13,10 @@ module.exports = function(options) {
 
   var entryPoint = options.entryPoint || 'index.html';
   var version = options.version || Date.now();
-  var hookSW = options.hookSW || null;
+  var hookSW = options.hookSW || [];
+  if (!Array.isArray(hookSW)) {
+    hookSW = [hookSW];
+  }
   var paths = [];
   var hasAppCacheManifest = false;
 
@@ -49,11 +52,12 @@ module.exports = function(options) {
       'install-sw.js',
       'sw.js',
       'sww.js',
-      hookSW,
       'cache.html',
       'cache.js',
       'manifest.appcache'
     ];
+    FILES_TO_REMOVE.push.apply(FILES_TO_REMOVE, hookSW);
+
     var filesToLoad = paths
       .filter(function(file) {
         // Remove the files related to SW or appCache.
@@ -66,14 +70,14 @@ module.exports = function(options) {
     // Assets used by the service worker.
     var swFiles = filesToLoad.slice(0); // Clone array.
     swFiles.push('install-sw.js', 'sw.js', 'sww.js');
-    if (hookSW !== null) {
-      swFiles.push(hookSW);
+    if (hookSW.length) {
+      swFiles.push.apply(swFiles, hookSW);
     }
 
     var swContent = templates.SW_TPL_JS
       .replace('$VERSION', version)
       .replace('$FILES_TO_LOAD', JSON.stringify(swFiles))
-      .replace('$HOOK', hookSW);
+      .replace('$HOOK', JSON.stringify(hookSW));
     var swFile = new File({
       path: 'sw.js',
       contents: new Buffer(swContent)
