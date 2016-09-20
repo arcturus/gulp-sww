@@ -4,6 +4,9 @@
   if (!('URLSearchParams' in window)) {
     // Simple polyfill for URLSearchParams#has() and URLSearchParams#get().
     class URLSearchParamsPolyfill {
+      /**
+       * @param {(string|!URLSearchParams)=} queryString
+       */
       constructor(queryString) {
         this._queryString = queryString
         // Split on all `&`.
@@ -87,18 +90,20 @@
 
   function redirect() {
     const searchParams = new URLSearchParams(location.search.substring(1));
-    // By default, go to the default page in the current folder.
-    // pathname
-    let url = new URL(location.href);
-    url.pathname = url.pathname.replace(/cache\.html$/, '/');
 
     if (searchParams.has('debug')) {
       return;
     }
 
+    // By default, go to the default page in the current folder.
+    // pathname
+    let url = location.href.split('/');
+    url.pop();
+    url = url.join('/');
+
     if (searchParams.has('redirect_url')) {
       // A param can be an empty string, so defaulting to the value of url.
-      url = new URL(searchParams.get('redirect_url') || url);
+      url = (searchParams.get('redirect_url') || url);
     }
 
     if (localStorage !== null) {
@@ -106,10 +111,10 @@
       localStorage.setItem('cached-by-gulp-sww', '1');
     } else {
       // If localStorage can't be used, we fallback to a hash in the URL.
-      url.hash = '#no-redirect';
+      url += '#no-redirect';
     }
 
-    location.href = url.href;
+    location.href = url;
   }
 
   applicationCache.addEventListener('cached', redirect);
