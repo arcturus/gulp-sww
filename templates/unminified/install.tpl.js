@@ -1,9 +1,10 @@
 (function() {
   'use strict';
 
-  if (location.protocol !== 'https:') {
+  if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
     // navigator.serviceWorker and window.applicationCache are both defined in
     // http pages but will not work, so we need to check the URL scheme.
+    // As well we allow the hostname localhost for development pourpuses
     return;
   }
 
